@@ -1,0 +1,78 @@
+# Insurance Underwriting Optimizer Configuration
+project:
+  name: "insurance-underwriting-optimizer"
+  version: "1.0.0"
+  random_seed: 42
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  external_data_dir: "data/external"
+  models_dir: "models"
+  reports_dir: "reports"
+  figures_dir: "images"
+  sql_dir: "sql"
+
+datasets:
+  openml_freMTPL2:
+    freq_dataset_id: 41214
+    sev_dataset_id: 41215
+    freq_filename: "freMTPL2freq.csv"
+    sev_filename: "freMTPL2sev.csv"
+    merged_filename: "french_motor_tpl_merged.csv"
+  cas_schedule_p:
+    line_of_business: "ppauto"  # Private Passenger Auto liability
+    url: "https://www.casact.org/sites/default/files/2021-04/ppauto_pos.csv"
+    local_filename: "cas_schedule_p_ppauto.csv"
+    accident_years: [1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997]
+    development_lags: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+preprocessing:
+  exposure_min: 0.0027397  # 1 day in years (1/365)
+  exposure_max: 1.0        # Cap exposure at 1 policy year
+  claim_amount_cap: 100000.0  # EUR threshold for large individual claims
+  claim_nb_cap: 4          # Maximum claims per policy year
+  test_size: 0.20
+  categorical_features:
+    - "Area"
+    - "VehBrand"
+    - "VehGas"
+    - "Region"
+  numerical_features:
+    - "VehPower"
+    - "VehAge"
+    - "DrivAge"
+    - "BonusMalus"
+    - "Density"
+
+survival_analysis:
+  time_col: "duration_days"
+  event_col: "claim_event"
+  cox_penalizer: 0.01
+  reference_categories:
+    VehGas: "Regular"
+    Area: "C"
+  strata_vars:
+    - "VehGas"
+
+reserving:
+  loss_metric: "CumPaidLoss"  # or CumIncurLoss
+  premium_metric: "EarnedPremNet"
+  tail_factor: 1.002
+  selected_loss_ratio: 0.685  # Expected initial loss ratio for Bornhuetter-Ferguson
+  discount_rate: 0.035       # Actuarial present value discount factor
+
+pricing_glm:
+  tweedie_p: 1.55            # Compound Poisson-Gamma power parameter (1 < p < 2)
+  link: "log"
+  max_iter: 200
+  tol: 1.0e-6
+  alpha: 0.0001              # L2 regularization strength
+
+profitability:
+  target_loss_ratio: 0.65    # Target loss ratio for profitability
+  breakeven_loss_ratio: 0.75 # Combined operating expense + loss ratio break-even
+  expense_ratio: 0.25        # Broker commission, acquisition, overhead
+  worst_segment_percentile: 0.20
+  bootstrap_replicates: 1000
+  confidence_interval: 0.95
