@@ -1,5 +1,6 @@
 # Insurance Actuarial Pricing & Loss Reserving Optimizer
 
+[![CI](https://github.com/abdussatarkhan/insurance-underwriting-optimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/abdussatarkhan/insurance-underwriting-optimizer/actions)
 [![Actuarial](https://img.shields.io/badge/Actuarial-Chain_Ladder_IBNR-4B0082?style=for-the-badge)](https://en.wikipedia.org/wiki/Chain-ladder_method) [![GLM](https://img.shields.io/badge/Pricing-Tweedie_GLM-008080?style=for-the-badge)](https://scikit-learn.org/) [![Python](https://img.shields.io/badge/Python-Actuarial_Science-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Author](https://img.shields.io/badge/Author-Abdussatar-E50914?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdussatarkhan)
 
@@ -55,6 +56,16 @@ source venv/bin/activate  # On Windows: .\venv\Scripts\activate
 # Install dependencies (if requirements.txt exists)
 pip install -r requirements.txt
 ```
+
+---
+
+## 🗺️ Roadmap & Upcoming Features
+
+- [x] Chain-Ladder & Bornhuetter-Ferguson loss reserving triangles
+- [x] Tweedie GLM pure premium frequency-severity pricing
+- [ ] Machine Learning gradient boosted Tweedie models (LightGBM)
+- [ ] Dynamic retention survival hazard modeling
+- [ ] Interactive actuarial rate-filing Excel/PDF exporter
 
 ---
 
