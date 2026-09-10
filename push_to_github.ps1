@@ -42,9 +42,10 @@ git add .
 Write-Host "4. Committing files..."
 git commit -m "Initial commit: Insurance Underwriting Loss Ratio Optimizer complete actuarial suite"
 
-Write-Host "5. Setting remote origin and pushing..."
+$ErrorActionPreference = "Continue"
+
+Write-Host "Setting remote origin and pushing..."
 $remoteUrl = "https://$username`:$token@github.com/$username/$repoName.git"
-git remote remove origin 2>$null
 git remote add origin $remoteUrl
 git push -u origin main --force
 
